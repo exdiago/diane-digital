@@ -1,98 +1,71 @@
 import express from 'express';
 import cors from 'cors';
+import OpenAI from 'openai';
+import fetch from 'node-fetch';
+import 'dotenv/config';
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const port = process.env.PORT || 3001;
 
-// Middleware
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
 app.use(cors());
 app.use(express.json());
 
-// In-memory storage for chat messages (in production, use a database)
-let messages = [];
+app.post('/api/chat', async (req, res) => {
+  const { message, language } = req.body; // We'll get language from frontend
+  console.log(`Received ${language} message:`, message);
 
-// Root route for health check
-app.get('/', (req, res) => {
-  res.json({ 
-    message: 'VideoChat Pro API Server', 
-    status: 'running',
-    timestamp: new Date().toISOString(),
-    endpoints: {
-      chat: '/api/chat',
-      health: '/api/health'
-    }
-  });
-});
-
-// Chat API endpoint
-app.post('/api/chat', (req, res) => {
   try {
-    const { message, username = 'Anonymous', timestamp } = req.body;
-    
-    if (!message || message.trim() === '') {
-      return res.status(400).json({ 
-        success: false, 
-        error: 'Message cannot be empty' 
-      });
-    }
-
-    const newMessage = {
-      id: Date.now(),
-      message: message.trim(),
-      username,
-      timestamp: timestamp || new Date().toISOString()
-    };
-
-    messages.push(newMessage);
-    
-    // Keep only last 100 messages to prevent memory issues
-    if (messages.length > 100) {
-      messages = messages.slice(-100);
-    }
-
-    res.json({ 
-      success: true, 
-      message: newMessage,
-      totalMessages: messages.length
+    const systemPrompt = `You are Diane Digital, a helpful, kind, and empathetic AI assistant.
+  Your audience is Spanish-speaking women dealing with prediabetes and diabetes.
+  Your name is Diane Digital.
+  Your primary language is Spanish, but you must respond in the language the user uses.
+  Your knowledge is based on verified health information. Do not invent facts.
+  Be supportive and understanding. Always validate the user's feelings. If they mention a struggle, start your response with an empathetic phrase like 'Entiendo que eso puede ser difícil' or 'Gracias por compartir eso conmigo.
+  Your primary goal is to provide clear, simple, and encouraging health information, not complex medical advice. Always suggest they consult a doctor for serious medical concerns.
+  Keep your answers concise and easy to understand. Use supportive language throughout.`;
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: message }
+      ],
     });
+    const aiTextResponse = completion.choices[0].message.content;
+
+    // --- ELEVENLABS VOICE GENERATION ---
+    const voiceId = language === 'es'
+      ? process.env.ELEVENLABS_VOICE_ID_SPANISH
+      : process.env.ELEVENLABS_VOICE_ID_ENGLISH;
+
+    const ttsResponse = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'audio/mpeg',
+        'Content-Type': 'application/json',
+        'xi-api-key': process.env.ELEVENLABS_API_KEY
+      },
+      body: JSON.stringify({
+        text: aiTextResponse,
+        model_id: 'eleven_multilingual_v2',
+      })
+    });
+
+    if (!ttsResponse.ok) throw new Error('ElevenLabs API failed.');
+
+    const audioBuffer = await ttsResponse.buffer();
+    const audioBase64 = audioBuffer.toString('base64');
+    // --- End of Voice Generation ---
+
+    res.json({ text: aiTextResponse, audio: audioBase64 });
+
   } catch (error) {
-    console.error('Error handling chat message:', error);
-    res.status(500).json({ 
-      success: false, 
-      error: 'Internal server error' 
-    });
+    console.error("API Error:", error.message);
+    res.status(500).json({ error: "Failed to process request." });
   }
 });
 
-// Get all messages endpoint
-app.get('/api/chat', (req, res) => {
-  try {
-    res.json({ 
-      success: true, 
-      messages,
-      totalMessages: messages.length
-    });
-  } catch (error) {
-    console.error('Error fetching messages:', error);
-    res.status(500).json({ 
-      success: false, 
-      error: 'Internal server error' 
-    });
-  }
-});
-
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.json({ 
-    status: 'OK', 
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime()
-  });
-});
-
-app.listen(PORT, () => {
-  console.log(`🚀 VideoChat Pro API Server running on port ${PORT}`);
-  console.log(`📡 Chat API available at http://localhost:${PORT}/api/chat`);
-  console.log(`🏥 Health check at http://localhost:${PORT}/api/health`);
-  console.log(`📋 Server info at http://localhost:${PORT}/`);
+app.listen(port, () => {
+  console.log(`✅ Server is running on http://localhost:${port}`);
 });

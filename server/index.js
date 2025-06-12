@@ -121,7 +121,7 @@ app.get('/api/welcome', async (req, res) => {
 
 // --- Main Chat Endpoint (POST request) ---
 app.post('/api/chat', async (req, res) => {
-  const { message } = req.body;
+  const { message, language } = req.body;
   const lowerCaseMessage = message.toLowerCase();
   let aiTextResponse = '';
 

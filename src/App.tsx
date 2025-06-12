@@ -5,25 +5,27 @@
       sender: 'user' | 'ai';
       text: string;
     }
+    
+    const API_BASE_URL = import.meta.env.MODE === 'development'
+      ? 'http://localhost:3001'
+      : '';
 
     function App() {
-      const [messages, setMessages] = useState<Message[]>([]); // Start with an empty message list
+      const [messages, setMessages] = useState<Message[]>([]);
       const [input, setInput] = useState('');
-      const [isLoading, setIsLoading] = useState(true); // Start in loading state
+      const [isLoading, setIsLoading] = useState(true);
       const [videoUrl, setVideoUrl] = useState<string | null>(null);
 
       const chatContainerRef = useRef<HTMLDivElement>(null);
       const videoRef = useRef<HTMLVideoElement>(null);
 
-      // --- NEW: useEffect hook to fetch the welcome message on load ---
       useEffect(() => {
         const fetchWelcomeMessage = async () => {
           try {
-            const response = await fetch('http://localhost:3001/api/welcome');
+            const response = await fetch(`${API_BASE_URL}/api/welcome`);
             if (!response.ok) throw new Error('Failed to fetch welcome message');
             const { text, videoUrl } = await response.json();
             
-            // Add the welcome message to the chat and set the video
             setMessages([{ sender: 'ai', text }]);
             setVideoUrl(videoUrl);
 
@@ -31,12 +33,12 @@
             console.error("Welcome Error:", error);
             setMessages([{ sender: 'ai', text: "Lo siento, no me pude conectar. Por favor, intenta de nuevo más tarde." }]);
           } finally {
-            setIsLoading(false); // Stop loading once welcome message is handled
+            setIsLoading(false);
           }
         };
 
         fetchWelcomeMessage();
-      }, []); // The empty dependency array [] means this runs only ONCE when the component mounts.
+      }, []);
 
       useEffect(() => {
         if (chatContainerRef.current) {
@@ -52,19 +54,27 @@
       }, [videoUrl]);
 
       const handleSend = async () => {
-        // ... (This function remains exactly the same as before)
         if (input.trim() === '' || isLoading) return;
         const userMessage: Message = { sender: 'user', text: input };
-        setMessages(prev => [...prev, userMessage]);
         const currentInput = input;
+        setMessages(prev => [...prev, userMessage]);
         setInput('');
         setIsLoading(true);
         try {
-          const response = await fetch('http://localhost:3001/api/chat', {
+          // --- FIX: Re-added language detection ---
+          // Use 'franc' to detect the language from the user's input.
+          const langCode = franc(currentInput);
+          // Default to 'en' if the language isn't Spanish ('spa').
+          const language = (langCode === 'spa') ? 'es' : 'en';
+
+          // Use the dynamic API URL here as well
+          const response = await fetch(`${API_BASE_URL}/api/chat`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: currentInput }),
+            // --- FIX: Send the detected language to the backend ---
+            body: JSON.stringify({ message: currentInput, language: language }),
           });
+
           if (!response.ok) throw new Error('Network response was not ok');
           const { text, videoUrl: newVideoUrl } = await response.json();
           const aiResponseMessage: Message = { sender: 'ai', text };
@@ -79,9 +89,8 @@
         }
       };
 
-      // The JSX remains mostly the same, but the initial state will be loading.
+      // The JSX remains the same
       return (
-        // ... (The JSX for the layout is the same as the previous version) ...
         <div className="bg-slate-900 w-full h-screen flex flex-row font-sans">
           {/* Left Side: Video Player */}
           <div className="w-1/2 h-full flex items-center justify-center p-8 bg-black">
@@ -97,7 +106,7 @@
                   className="w-full h-full object-cover"
                   playsInline
                   autoPlay
-                  muted // Autoplay with sound is often blocked; starting muted is safer
+                  muted
                 >
                   <source src={videoUrl || ''} type="video/mp4" />
                 </video>
@@ -107,7 +116,6 @@
 
           {/* Right Side: Chat Interface */}
           <div className="w-1/2 h-full flex flex-col p-4 bg-slate-800 border-l-4 border-slate-900">
-             {/* ... (The rest of the chat JSX is identical to the previous version) ... */}
             <h1 className="text-xl font-bold text-slate-100 text-center border-b border-slate-700 pb-4 shrink-0">
               Chatea con Diane Digital
             </h1>

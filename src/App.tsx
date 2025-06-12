@@ -6,9 +6,12 @@
       text: string;
     }
     
-    const API_BASE_URL = import.meta.env.MODE === 'development'
+    // --- FINAL DYNAMIC API URL ---
+    // This is the Vite-specific way to create a dynamic URL.
+    // import.meta.env.DEV is 'true' during 'npm run dev' and 'false' when built for production.
+    const API_BASE_URL = import.meta.env.DEV
       ? 'http://localhost:3001'
-      : '';
+      : ''; // In production (on Bolt), use a relative path.
 
     function App() {
       const [messages, setMessages] = useState<Message[]>([]);
@@ -61,17 +64,12 @@
         setInput('');
         setIsLoading(true);
         try {
-          // --- FIX: Re-added language detection ---
-          // Use 'franc' to detect the language from the user's input.
           const langCode = franc(currentInput);
-          // Default to 'en' if the language isn't Spanish ('spa').
           const language = (langCode === 'spa') ? 'es' : 'en';
 
-          // Use the dynamic API URL here as well
           const response = await fetch(`${API_BASE_URL}/api/chat`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            // --- FIX: Send the detected language to the backend ---
             body: JSON.stringify({ message: currentInput, language: language }),
           });
 
@@ -89,7 +87,6 @@
         }
       };
 
-      // The JSX remains the same
       return (
         <div className="bg-slate-900 w-full h-screen flex flex-row font-sans">
           {/* Left Side: Video Player */}

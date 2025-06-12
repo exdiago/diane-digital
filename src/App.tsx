@@ -6,12 +6,9 @@
       text: string;
     }
     
-    // --- FINAL DYNAMIC API URL ---
-    // This is the Vite-specific way to create a dynamic URL.
-    // import.meta.env.DEV is 'true' during 'npm run dev' and 'false' when built for production.
-    const API_BASE_URL = import.meta.env.DEV
-      ? 'http://localhost:3001'
-      : ''; // In production (on Bolt), use a relative path.
+    // With the proxy, we no longer need a dynamic URL.
+    // We can use a relative path for all API calls.
+    const API_BASE_URL = '/api';
 
     function App() {
       const [messages, setMessages] = useState<Message[]>([]);
@@ -25,7 +22,8 @@
       useEffect(() => {
         const fetchWelcomeMessage = async () => {
           try {
-            const response = await fetch(`${API_BASE_URL}/api/welcome`);
+            // The URL is now simple and relative.
+            const response = await fetch(`${API_BASE_URL}/welcome`);
             if (!response.ok) throw new Error('Failed to fetch welcome message');
             const { text, videoUrl } = await response.json();
             
@@ -67,7 +65,8 @@
           const langCode = franc(currentInput);
           const language = (langCode === 'spa') ? 'es' : 'en';
 
-          const response = await fetch(`${API_BASE_URL}/api/chat`, {
+          // The URL is now simple and relative.
+          const response = await fetch(`${API_BASE_URL}/chat`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: currentInput, language: language }),
@@ -87,6 +86,7 @@
         }
       };
 
+      // The JSX remains the same
       return (
         <div className="bg-slate-900 w-full h-screen flex flex-row font-sans">
           {/* Left Side: Video Player */}

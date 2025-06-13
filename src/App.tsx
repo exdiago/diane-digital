@@ -5,10 +5,6 @@
       sender: 'user' | 'ai';
       text: string;
     }
-    
-    // With the proxy, we no longer need a dynamic URL.
-    // We can use a relative path for all API calls.
-    const API_BASE_URL = '/api';
 
     function App() {
       const [messages, setMessages] = useState<Message[]>([]);
@@ -22,8 +18,7 @@
       useEffect(() => {
         const fetchWelcomeMessage = async () => {
           try {
-            // The URL is now simple and relative.
-            const response = await fetch(`${API_BASE_URL}/welcome`);
+            const response = await fetch('/api/welcome');
             if (!response.ok) throw new Error('Failed to fetch welcome message');
             const { text, videoUrl } = await response.json();
             
@@ -65,8 +60,7 @@
           const langCode = franc(currentInput);
           const language = (langCode === 'spa') ? 'es' : 'en';
 
-          // The URL is now simple and relative.
-          const response = await fetch(`${API_BASE_URL}/chat`, {
+          const response = await fetch(`/api/chat`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: currentInput, language: language }),
@@ -86,14 +80,14 @@
         }
       };
 
-      // The JSX remains the same
       return (
-        <div className="bg-slate-900 w-full h-screen flex flex-row font-sans">
+        // --- NEW GRADIENT BACKGROUND APPLIED ---
+        <div className="w-full h-screen flex flex-row font-sans bg-gradient-to-b from-indigo-900 to-slate-900">
           {/* Left Side: Video Player */}
-          <div className="w-1/2 h-full flex items-center justify-center p-8 bg-black">
-            <div className="w-full max-w-md aspect-square bg-slate-800 rounded-full flex items-center justify-center overflow-hidden">
+          <div className="w-1/2 h-full flex items-center justify-center p-8">
+            <div className="w-full max-w-md aspect-square bg-black/30 rounded-full flex items-center justify-center overflow-hidden">
               {isLoading && !videoUrl ? (
-                 <div className="text-slate-500 animate-pulse">
+                 <div className="text-slate-400 animate-pulse">
                     <p className="text-center mt-2">Cargando a Diane Digital...</p>
                  </div>
               ) : (
@@ -112,23 +106,24 @@
           </div>
 
           {/* Right Side: Chat Interface */}
-          <div className="w-1/2 h-full flex flex-col p-4 bg-slate-800 border-l-4 border-slate-900">
-            <h1 className="text-xl font-bold text-slate-100 text-center border-b border-slate-700 pb-4 shrink-0">
+          {/* --- UPDATED CHAT PANEL STYLE --- */}
+          <div className="w-1/2 h-full flex flex-col p-4 bg-black/20 backdrop-blur-lg border-l-2 border-white/10">
+            <h1 className="text-xl font-bold text-slate-100 text-center border-b border-white/10 pb-4 shrink-0">
               Chatea con Diane Digital
             </h1>
             <div ref={chatContainerRef} className="flex-grow overflow-y-auto my-4 space-y-4 pr-2">
               {messages.map((msg, index) => (
                 <div key={index} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-lg px-4 py-3 rounded-2xl ${msg.sender === 'user' ? 'bg-blue-500' : 'bg-slate-700'}`}>
+                  <div className={`max-w-lg px-4 py-3 rounded-2xl ${msg.sender === 'user' ? 'bg-blue-600' : 'bg-slate-700/80'}`}>
                     {msg.text}
                   </div>
                 </div>
               ))}
             </div>
-            <div className="border-t border-slate-700 pt-4 shrink-0">
+            <div className="border-t border-white/10 pt-4 shrink-0">
               <div className="flex space-x-2">
                 <textarea
-                  className="flex-grow bg-slate-700 text-slate-100 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  className="flex-grow bg-slate-800 text-slate-100 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                   placeholder="Escribe tu mensaje..."
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
@@ -137,7 +132,7 @@
                   disabled={isLoading}
                 />
                 <button
-                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-colors disabled:opacity-50"
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors disabled:opacity-50"
                   onClick={handleSend}
                   disabled={isLoading}
                 >

@@ -81,7 +81,6 @@
       };
 
       return (
-        // --- NEW GRADIENT BACKGROUND APPLIED ---
         <div className="w-full h-screen flex flex-row font-sans bg-gradient-to-b from-indigo-900 to-slate-900">
           {/* Left Side: Video Player */}
           <div className="w-1/2 h-full flex items-center justify-center p-8">
@@ -106,12 +105,28 @@
           </div>
 
           {/* Right Side: Chat Interface */}
-          {/* --- UPDATED CHAT PANEL STYLE --- */}
           <div className="w-1/2 h-full flex flex-col p-4 bg-black/20 backdrop-blur-lg border-l-2 border-white/10">
             <h1 className="text-xl font-bold text-slate-100 text-center border-b border-white/10 pb-4 shrink-0">
               Chatea con Diane Digital
             </h1>
-            <div ref={chatContainerRef} className="flex-grow overflow-y-auto my-4 space-y-4 pr-2">
+            
+            {/* --- BADGE SECTION UPDATED --- */}
+            <div className="text-center py-2 shrink-0">
+              <a 
+                href="https://bolt.new" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                <img 
+                  src="/logotext_poweredby_360w.png" 
+                  alt="Powered by Bolt.new" 
+                  className="h-8 mx-auto opacity-70 hover:opacity-100 transition-opacity"
+                />
+              </a>
+            </div>
+            {/* --------------------------- */}
+            
+            <div ref={chatContainerRef} className="flex-grow overflow-y-auto my-2 space-y-4 pr-2">
               {messages.map((msg, index) => (
                 <div key={index} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={`max-w-lg px-4 py-3 rounded-2xl ${msg.sender === 'user' ? 'bg-blue-600' : 'bg-slate-700/80'}`}>

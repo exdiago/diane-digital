@@ -44,12 +44,16 @@ const loadKnowledgeBase = async () => {
   return combinedText;
 };
 
-const generateTavusVideo = async (script) => {
-    console.log("Sending script to Tavus:", script);
+const generateTavusVideo = async (script, backgroundUrl = null) => {
+    console.log(`Sending script to Tavus. Background: ${backgroundUrl || 'default'}`);
+    const payload = { replica_id: TAVUS_REPLICA_ID, script: script };
+    if (backgroundUrl) {
+      payload.background_image_url = backgroundUrl;
+    }
     const initialTavusResponse = await fetch('https://api.tavus.io/v2/videos', {
         method: 'POST',
         headers: { 'x-api-key': TAVUS_API_KEY, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ replica_id: TAVUS_REPLICA_ID, script: script }),
+        body: JSON.stringify(payload),
     });
     if (!initialTavusResponse.ok) {
       const errorBody = await initialTavusResponse.text();
@@ -67,12 +71,10 @@ const generateTavusVideo = async (script) => {
     return videoData;
 };
 
-// --- Root Route for Health Check ---
 app.get('/', (req, res) => {
   res.send('✅ Diane Digital Backend is running!');
 });
 
-// --- Welcome Endpoint ---
 app.get('/api/welcome', async (req, res) => {
     try {
         const welcomeText = "¡Hola! Soy Diane Digital. Bienvenida a nuestro espacio. Estoy aquí para ayudarte a responder cualquier pregunta que tengas sobre cómo manejar la prediabetes y diabetes con un enfoque en nutrición y bienestar. ¿En qué te puedo ayudar hoy?";
@@ -84,12 +86,16 @@ app.get('/api/welcome', async (req, res) => {
     }
 });
 
-// --- Main Chat Endpoint ---
 app.post('/api/chat', async (req, res) => {
   const { message } = req.body;
   const lowerCaseMessage = message.toLowerCase();
   let aiTextResponse = '';
-
+  let backgroundUrl = null;
+  if (lowerCaseMessage.includes('nutrición') || lowerCaseMessage.includes('nutrition') || lowerCaseMessage.includes('food') || lowerCaseMessage.includes('comida')) {
+    backgroundUrl = 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg';
+  } else if (lowerCaseMessage.includes('mindset') || lowerCaseMessage.includes('support') || lowerCaseMessage.includes('estrés') || lowerCaseMessage.includes('ayuda')) {
+    backgroundUrl = 'https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg';
+  }
   try {
     if (lowerCaseMessage.includes('chatgpt')) {
         aiTextResponse = "Our avatar only speaks from verified company content, admits when it doesn't know something, and seamlessly hands off to humans when needed.";
@@ -109,17 +115,14 @@ app.post('/api/chat', async (req, res) => {
         });
         aiTextResponse = completion.choices[0].message.content;
     }
-
-    const videoData = await generateTavusVideo(aiTextResponse);
+    const videoData = await generateTavusVideo(aiTextResponse, backgroundUrl);
     res.json({ text: aiTextResponse, videoUrl: videoData.stream_url });
-
   } catch (error) {
     console.error("API Error in /chat:", error.message);
     res.status(500).json({ error: "Failed to process request." });
   }
 });
 
-// --- Start the Server ---
 app.listen(port, () => {
   console.log(`✅ Final server is running on http://localhost:${port}`);
 });

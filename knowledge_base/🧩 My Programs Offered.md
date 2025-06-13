@@ -1,91 +1,157 @@
-## **🧩 Programs Offered**
+Diane Digital – Programs, Lead Magnets & Communities Knowledge Base
 
-### **1\. Sanación de Cuerpo Entero en 90 Días**
+🧩 Programs Offered
+1. Sanación de Cuerpo Entero en 90 Días
+Language: Spanish
 
-* Spanish-language flagship program for metabolic healing
 
-* $1700 (3-month plan)
+Price: $1700 (3-month plan)
 
-* Functional bloodwork review, personalized coaching, supplements, lifestyle plans
 
-### **2\. Whole Body Healing Program (English)**
+Includes: Functional bloodwork interpretation, personalized coaching, supplement plan, lifestyle and nutrition support.
 
-* English version of your 3-month flagship program
 
-* Focus on lab-based healing and holistic support
+Focus: Metabolic healing, prediabetes, diabetes, hormonal imbalances.
 
-* $1700 includes bloodwork interpretation, coaching, and a full health strategy
 
-### **3\. Whole Body Myco Detox**
+2. Whole Body Healing Program (English)
+Language: English
 
-* Mold detox protocol
 
-* Special focus on mycotoxins, drainage, immune load, and gut recovery
+Price: $1700 (3-month plan)
 
-* Includes testing review and anti-inflammatory supplement plan
 
-### **4\. 30-Minute Bloodwork Review**
+Includes: Functional bloodwork review, tailored supplement and lifestyle recommendations, health coaching.
 
-* $47 mini consult
 
-* PDF results interpretation
+Focus: Metabolic and functional wellness.
 
-* Starter offer to assess interest and upsell to full program
 
-### **5\. La Glucosa Saludable (Telegram Program)**
+3. Whole Body Myco Detox
+Language: English or Spanish
 
-* 21-day Spanish-language education sequence
 
-* Glucose control, hormone syncing, and habit-building
+Focus: Detox from mold exposure and mycotoxins
 
-* Delivered via Telegram with daily messages and support
 
-### **6\. La Susurradora de la Glucosa**
+Includes: Functional bloodwork, mold-specific protocols, drainage support, gut healing strategies.
 
-* Persona-based program or content series
 
-* Focused on listening to the subtle signs of glucose imbalance
+4. 30-Minute Bloodwork Review
+Price: $47
 
-* Empowers women to tune into their bodies and decode early metabolic signals
 
-* Format may include storytelling, short voice notes, or guided audio sessions (expandable into a series or content stream)
+Includes: Snapshot review of functional bloodwork, PDF with recommendations.
 
----
 
-## **💌 Lead Magnets**
+Bonus: Amount can be credited toward a full program.
 
-### **1\. Masterclass: Cómo Leer tu Sangre y Recuperar tu Salud**
 
-* 9-video Spanish series
+5. La Glucosa Saludable (Telegram Program)
+Language: Spanish
 
-* Free opt-in with GHL funnel
 
-* Step-by-step breakdown of functional bloodwork interpretation
+Format: 21-day program delivered via Telegram
 
-### **2\. Descifrando los Secretos de los Análisis de Sangre (eBook)**
 
-* Bonus PDF included with $47 offer
+Includes: Daily micro-lessons, lifestyle guidance, hormone syncing tips, metabolic education.
 
-* Teaches how to understand labs with functional lens
 
-* Spanish, practical, and empowering
+Goal: Empower women to stabilize glucose with small daily actions.
 
-### **3\. Mini PDF Guides (for lead generation)**
 
-* “5 PASOS PARA INTERPRETAR TU SANGRE”
+6. La Susurradora de la Glucosa
+Language: Spanish
 
-* “Desentraña tu Salud 5 Claves Más Allá de los Análisis 'Normales’”
 
-* “Rompe el Ciclo \- 5 Verdades Impactantes Sobre la Diabetes que tu Médico no te Dirá”
+Format: Persona-based educational stream
 
----
 
-## **🌐 Communities**
+Focus: Tuning into subtle glucose shifts, listening to the body’s early warning signs
 
-### **1\. MetaboNación (on Circle)**
 
-* Ongoing support community for Spanish-speaking women
+Includes: Stories, voice notes, body-mind insights
 
-* Combines accountability, education, and connection
 
-* Regular Q\&As, expert insights, and interactive content  
+7. Renovación Metabólica
+Language: Spanish
+
+
+Platform: Xperiencify
+
+
+Link: https://ladetectivedelasalud.xperiencify.io/
+
+
+Focus: Matching the right type of exercise to each woman’s hormonal profile
+
+
+Includes: Daily lessons, habit stacking, practical tools for sustainable hormone-aligned fitness and metabolic reset.
+
+
+
+💌 Lead Magnets
+1. Masterclass: Cómo Leer tu Sangre y Recuperar tu Salud
+Language: Spanish
+
+
+Format: 9-video series hosted on GHL
+
+
+Access: Free opt-in (manual unlocking via tags)
+
+
+Covers: Glucose, inflammation, nutrient deficiencies, infection markers, hormones.
+
+
+2. Descifrando los Secretos de los Análisis de Sangre (eBook)
+Language: Spanish
+
+
+Format: Free PDF included with $47 discovery offer
+
+
+Goal: Teach clients how to interpret labs through a functional lens.
+
+
+3. Mini PDF Guides
+Language: Spanish
+
+
+Formats: 1–2 page opt-in PDFs
+
+
+Titles:
+
+
+"5 PASOS PARA INTERPRETAR TU SANGRE"
+
+
+"Desentraña tu Salud: 5 Claves Más Allá de los Análisis 'Normales’"
+
+
+"Rompe el Ciclo: 5 Verdades Impactantes Sobre la Diabetes que tu Médico no te Dirá"
+
+
+
+🌐 Communities
+1. MetaboNación (on Circle)
+Language: Spanish
+
+
+Audience: Women ages 30–65 with metabolic challenges
+
+
+Includes: Weekly engagement, expert content, community Q&A, and accountability tools.
+
+
+
+🔗 Affiliate & Recommended Tools
+Theia Continuous Glucose Monitor (CGM)
+Spanish Affiliate Link: https://ladetectivedelasalud.com/theia
+
+
+English Affiliate Link: https://theiahealth.ai/c/ladetectivedelasalud?el=ladetectivedelasalud
+
+
+Purpose: Real-time glucose tracking to empower lifestyle changes without finger-pricking.

@@ -107,7 +107,7 @@
           {/* Right Side: Chat Interface */}
           <div className="w-1/2 h-full flex flex-col p-4 bg-black/20 backdrop-blur-lg border-l-2 border-white/10">
             <h1 className="text-xl font-bold text-slate-100 text-center border-b border-white/10 pb-4 shrink-0">
-              Chatea con Diane Digital
+              Chatea con Diane Digital - La Detective de la Salud
             </h1>
             
             {/* --- BADGE SECTION UPDATED --- */}
